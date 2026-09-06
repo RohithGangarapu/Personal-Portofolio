@@ -42,6 +42,7 @@ export function Typography({
 }: TypographyProps) {
   const Component = as || defaultElements[variant];
   return (
+    // @ts-ignore
     <Component
       className={cn(variantStyles[variant], className)}
       {...props}

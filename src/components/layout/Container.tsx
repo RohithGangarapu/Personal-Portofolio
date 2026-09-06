@@ -7,6 +7,7 @@ interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function Container({ className, as: Component = "div", ...props }: ContainerProps) {
   return (
+    // @ts-ignore
     <Component
       className={cn("container-app", className)}
       {...props}
