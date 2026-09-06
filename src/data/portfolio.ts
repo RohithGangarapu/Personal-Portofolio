@@ -1,12 +1,12 @@
 export const metadata = {
   name: "Rohith Sai Ganesh",
-  title: "AI Engineer & Python Developer",
-  description: "I am an AI & Python Engineer building efficient backend systems and agentic AI solutions.",
+  title: "AI Full Stack Developer",
+  description: "Architecting intelligent, scalable web applications powered by generative AI.",
   email: "gangarapurohith4@gmail.com",
   github: "https://github.com/RohithGangarapu",
   linkedin: "https://linkedin.com/in/rohithgangarapu",
   leetcode: "https://leetcode.com/RohithGangarapu1",
-  resume: "#", // Add actual resume link here later
+  resume: "https://drive.google.com/file/d/1peMWVPih8EHag_MP-79JcvHZ5lPr53dO/view?usp=drive_link", // Add actual resume link here later
 };
 
 export const skills = {
@@ -21,7 +21,7 @@ export const skills = {
     { name: "LangGraph", percentage: 85 },
     { name: "RAG", percentage: 95 },
     { name: "LLMs", percentage: 90 },
-    { name: "FAISS", percentage: 85 },
+    { name: "Vector Databases", percentage: 85 },
     { name: "OpenRouter", percentage: 80 }
   ],
   "Backend": [

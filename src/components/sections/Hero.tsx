@@ -20,7 +20,10 @@ export function Hero() {
             
             <Reveal delay={0.3}>
               <Typography variant="h1" className="mb-2 text-balance">
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 mb-2">
+                <span className="block text-primary text-3xl md:text-5xl mb-2">
+                  Hi, I&apos;m {metadata.name}
+                </span>
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 mb-2 mt-4 text-4xl md:text-6xl font-extrabold">
                   {metadata.title}
                 </span>
               </Typography>

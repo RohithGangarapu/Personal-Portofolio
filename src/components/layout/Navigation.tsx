@@ -11,7 +11,7 @@ export function Navigation() {
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded">
             <Typography variant="mono" className="text-primary font-bold">
-              RSG.DEV
+              Rohith Sai Ganesh
             </Typography>
           </Link>
           
