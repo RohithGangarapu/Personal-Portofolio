@@ -4,7 +4,6 @@ import { Typography } from "../core/Typography";
 import { Button } from "../core/Button";
 import { metadata } from "@/data/portfolio";
 import { Reveal } from "../animations/Reveal";
-import { NeuralNetwork3D } from "../animations/NeuralNetwork3D";
 
 export function Hero() {
   return (
@@ -73,10 +72,27 @@ export function Hero() {
             </Reveal>
           </div>
           
-          {/* Interactive 3D Particle Vortex */}
-          <div className="lg:col-span-6 hidden lg:flex justify-center items-center h-full w-full relative z-20">
+          {/* Abstract Glowing AI Core */}
+          <div className="lg:col-span-6 hidden lg:flex justify-center items-center h-full w-full">
             <Reveal delay={0.6} width="100%">
-              <NeuralNetwork3D />
+              <div className="w-full aspect-square max-h-[500px] relative rounded-full flex items-center justify-center">
+                {/* Core layers */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-blue-600/30 rounded-full blur-[80px] animate-blob"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50%] h-[50%] bg-indigo-500/40 rounded-full blur-[60px] animate-blob animation-delay-2000 mix-blend-screen"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] bg-cyan-400/50 rounded-full blur-[40px] animate-blob animation-delay-4000 mix-blend-screen"></div>
+                
+                {/* Floating particles/accents */}
+                <div className="absolute w-full h-full animate-[spin_20s_linear_infinite]">
+                  <div className="absolute top-[20%] left-[20%] w-2 h-2 bg-blue-400 rounded-full blur-[2px] shadow-[0_0_10px_#60A5FA]"></div>
+                  <div className="absolute bottom-[20%] right-[30%] w-3 h-3 bg-indigo-400 rounded-full blur-[2px] shadow-[0_0_15px_#818CF8]"></div>
+                  <div className="absolute top-[40%] right-[10%] w-1.5 h-1.5 bg-cyan-300 rounded-full blur-[1px] shadow-[0_0_8px_#67E8F9]"></div>
+                </div>
+                
+                {/* Center Solid Core */}
+                <div className="relative z-10 w-24 h-24 bg-gradient-to-br from-[#141414] to-[#0A0A0A] rounded-full border border-blue-500/30 shadow-[0_0_40px_rgba(59,130,246,0.5),inset_0_0_20px_rgba(59,130,246,0.2)] flex items-center justify-center backdrop-blur-xl">
+                  <div className="w-3 h-3 bg-white rounded-full shadow-[0_0_20px_#FFFFFF,0_0_40px_#60A5FA] animate-pulse"></div>
+                </div>
+              </div>
             </Reveal>
           </div>
         </div>
