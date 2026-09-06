@@ -65,6 +65,13 @@ export function Hero() {
                   <Typography variant="mono" className="text-sm">LinkedIn</Typography>
                 </a>
 
+                <a href={metadata.leetcode} target="_blank" rel="noopener noreferrer" className="text-secondary hover:text-[#FFA116] transition-colors flex items-center gap-2 group">
+                  <svg className="w-5 h-5 group-hover:text-[#FFA116] transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M16.102 17.93l-2.697 2.607c-.466.467-1.111.662-1.823.662s-1.357-.195-1.824-.662l-4.332-4.363c-.467-.467-.702-1.11-.702-1.823 0-.713.235-1.357.702-1.824l4.319-4.38c.467-.467 1.111-.662 1.823-.662s1.356.195 1.824.662l2.697 2.606c.514.515 1.365.497 1.9-.038.535-.536.553-1.387.039-1.901l-2.609-2.636a5.055 5.055 0 0 0-7.215 0l-4.32 4.38a5.053 5.053 0 0 0 0 7.215l4.332 4.363a5.055 5.055 0 0 0 7.215 0l2.609-2.637c.514-.514.496-1.365-.039-1.9-.535-.535-1.386-.553-1.9-.038zM20.811 11.28H14.17a1.769 1.769 0 0 0-1.767 1.766 1.769 1.769 0 0 0 1.767 1.766h6.642a1.769 1.769 0 0 0 1.767-1.766 1.769 1.769 0 0 0-1.767-1.766z"/>
+                  </svg>
+                  <Typography variant="mono" className="text-sm">LeetCode</Typography>
+                </a>
+
                 <a href={metadata.resume} target="_blank" rel="noopener noreferrer" className="text-secondary hover:text-primary transition-colors flex items-center gap-2 group">
                   <svg className="w-5 h-5 group-hover:text-blue-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

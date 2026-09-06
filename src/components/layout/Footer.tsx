@@ -24,6 +24,9 @@ export function Footer() {
             <a href={metadata.linkedin} target="_blank" rel="noopener noreferrer" className="text-secondary hover:text-primary transition-colors">
               <Typography variant="small">LinkedIn</Typography>
             </a>
+            <a href={metadata.leetcode} target="_blank" rel="noopener noreferrer" className="text-secondary hover:text-[#FFA116] transition-colors">
+              <Typography variant="small">LeetCode</Typography>
+            </a>
             <a href={`mailto:${metadata.email}`} className="text-secondary hover:text-primary transition-colors">
               <Typography variant="small">Email</Typography>
             </a>
