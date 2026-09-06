@@ -40,6 +40,7 @@ export function Typography({
   as,
   ...props
 }: TypographyProps) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Component: any = as || defaultElements[variant];
   return (
     <Component

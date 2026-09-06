@@ -1,82 +1,114 @@
 "use client";
+/* eslint-disable react-hooks/purity */
 
 import React, { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Sphere, Line } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
-// Number of nodes in the neural network
-const NODE_COUNT = 100;
-// Maximum distance between nodes to draw a connection line
-const CONNECTION_DISTANCE = 2.5;
-
-function Network() {
-  const group = useRef<THREE.Group>(null);
+function ParticleVortex() {
+  const pointsRef = useRef<THREE.Points>(null);
   
-  // Generate random positions for the nodes only once
-  const [nodes] = React.useState(() => {
-    const temp = [];
-    for (let i = 0; i < NODE_COUNT; i++) {
-      // Create points in a rough sphere volume
-      const radius = 5;
-      const u = Math.random();
-      const v = Math.random();
-      const theta = 2 * Math.PI * u;
-      const phi = Math.acos(2 * v - 1);
-      const r = Math.cbrt(Math.random()) * radius;
+  // High particle count for dense, premium look
+  const particleCount = 5000;
+  
+  const [positions, colors] = useMemo(() => {
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+    
+    // Core brand colors
+    const color1 = new THREE.Color("#3B82F6"); // Blue
+    const color2 = new THREE.Color("#8B5CF6"); // Purple
+    const color3 = new THREE.Color("#06B6D4"); // Cyan
+    
+    for (let i = 0; i < particleCount; i++) {
+      // Create a swirling galaxy / vortex effect
+      const t = i / particleCount;
+      const angle = t * Math.PI * 80; // Tightness of the spiral
       
-      const x = r * Math.sin(phi) * Math.cos(theta);
-      const y = r * Math.sin(phi) * Math.sin(theta);
-      const z = r * Math.cos(phi);
+      // Radius expands outward, with some randomness
+      const radius = 0.5 + t * 4 + (Math.random() * 2 - 1) * (1 - t) * 2;
       
-      temp.push(new THREE.Vector3(x, y, z));
-    }
-    return temp;
-  });
-
-  // Determine which nodes should be connected
-  const connections = useMemo(() => {
-    const temp = [];
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const dist = nodes[i].distanceTo(nodes[j]);
-        if (dist < CONNECTION_DISTANCE) {
-          temp.push([nodes[i], nodes[j]]);
-        }
+      const x = Math.cos(angle) * radius;
+      const z = Math.sin(angle) * radius;
+      // Y represents the vertical thickness of the disk, getting thinner at the edges
+      const y = (Math.random() * 2 - 1) * 1.5 * (1 - t + 0.1);
+      
+      positions[i * 3] = x;
+      positions[i * 3 + 1] = y;
+      positions[i * 3 + 2] = z;
+      
+      // Color gradient based on distance from center (t) and randomness
+      const mixRatio = Math.random();
+      let mixedColor = color1.clone();
+      
+      if (t < 0.2) {
+        // Inner core is bright cyan/white
+        mixedColor = color3.clone().lerp(new THREE.Color("#ffffff"), 0.5 + Math.random() * 0.5);
+      } else if (t < 0.6) {
+        // Middle ring is blue/purple
+        mixedColor = color1.clone().lerp(color2, mixRatio);
+      } else {
+        // Outer ring is deep blue
+        mixedColor = color1.clone().multiplyScalar(0.5 + Math.random() * 0.5);
       }
+      
+      colors[i * 3] = mixedColor.r;
+      colors[i * 3 + 1] = mixedColor.g;
+      colors[i * 3 + 2] = mixedColor.b;
     }
-    return temp;
-  }, [nodes]);
+    
+    return [positions, colors];
+  }, [particleCount]);
 
-  // Rotate the entire network slowly
-  useFrame((state, delta) => {
-    if (group.current) {
-      group.current.rotation.y += delta * 0.1;
-      group.current.rotation.x += delta * 0.05;
+  useFrame((state) => {
+    if (!pointsRef.current) return;
+    const time = state.clock.getElapsedTime();
+    
+    // Slowly rotate the entire vortex
+    pointsRef.current.rotation.y = time * 0.15;
+    pointsRef.current.rotation.z = Math.sin(time * 0.2) * 0.1;
+    pointsRef.current.rotation.x = Math.sin(time * 0.1) * 0.05;
+    
+    // Animate individual particles for a "breathing" / wave effect
+    const positionsArray = pointsRef.current.geometry.attributes.position.array as Float32Array;
+    for (let i = 0; i < particleCount; i++) {
+      const i3 = i * 3;
+      const x = positionsArray[i3];
+      const z = positionsArray[i3 + 2];
+      
+      // Gentle pulsing effect
+      positionsArray[i3 + 1] += Math.sin(time * 2 + x + z) * 0.005;
     }
+    pointsRef.current.geometry.attributes.position.needsUpdate = true;
   });
 
   return (
-    <group ref={group}>
-      {/* Render the nodes (neurons) */}
-      {nodes.map((pos, i) => (
-        <Sphere key={`node-${i}`} args={[0.06, 8, 8]} position={pos}>
-          <meshBasicMaterial color="#3B82F6" />
-        </Sphere>
-      ))}
-      
-      {/* Render the connections (synapses) */}
-      {connections.map((points, i) => (
-        <Line 
-          key={`line-${i}`} 
-          points={points} 
-          color="#1e40af" 
-          lineWidth={0.5} 
-          transparent 
-          opacity={0.3} 
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={particleCount}
+          array={positions}
+          itemSize={3}
         />
-      ))}
-    </group>
+        <bufferAttribute
+          attach="attributes-color"
+          count={particleCount}
+          array={colors}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.035}
+        vertexColors
+        transparent
+        opacity={0.8}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+        sizeAttenuation={true}
+      />
+    </points>
   );
 }
 
@@ -100,16 +132,27 @@ export function NeuralNetwork3D() {
   }, []);
 
   return (
-    <div className="w-full h-full min-h-[400px] md:min-h-[500px] flex items-center justify-center cursor-move">
-      <Canvas camera={{ position: [0, 0, 10], fov: 60 }}>
-        <color attach="background" args={["#0A0A0A"]} />
+    <div className="w-full h-full min-h-[400px] md:min-h-[500px] flex items-center justify-center cursor-grab active:cursor-grabbing relative">
+      {/* Background glow behind canvas */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
+      
+      <Canvas camera={{ position: [0, 2, 8], fov: 60 }} gl={{ alpha: true }}>
+        <color attach="background" args={["transparent"]} />
+        
+        {/* Core lighting */}
         <ambientLight intensity={0.5} />
-        <Network />
+        <pointLight position={[0, 0, 0]} intensity={2} color="#06B6D4" />
+        
+        <ParticleVortex />
+        
+        {/* Interactive camera controls */}
         <OrbitControls 
           enableZoom={false} 
           enablePan={false} 
           autoRotate 
-          autoRotateSpeed={0.5} 
+          autoRotateSpeed={1.5}
+          maxPolarAngle={Math.PI / 1.5}
+          minPolarAngle={Math.PI / 3}
         />
       </Canvas>
     </div>

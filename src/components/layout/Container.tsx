@@ -6,6 +6,7 @@ interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function Container({ className, as: Component = "div", ...props }: ContainerProps) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Comp: any = Component;
   return (
     <Comp
